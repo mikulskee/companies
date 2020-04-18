@@ -1,12 +1,17 @@
 import React from "react";
+import CompaniesContextProvider from "./contexts/CompaniesContext";
+import CompaniesTable from "./components/CompaniesTable";
 
 const App = () => {
   return (
-    <div className="App">
-      <div>
-        <h1>Hello World!</h1>
+    <CompaniesContextProvider>
+      <div className="App">
+        <div>
+          <h1>Hello World!</h1>
+        </div>
       </div>
-    </div>
+      <CompaniesTable />
+    </CompaniesContextProvider>
   );
 };
 
