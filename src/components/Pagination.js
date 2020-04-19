@@ -52,7 +52,6 @@ const Pagination = ({
   );
 
   const handlePagination = (number, e) => {
-    console.log(number);
     e.preventDefault();
     if (number === 1) {
       paginate(number);
@@ -67,12 +66,10 @@ const Pagination = ({
   };
 
   const switchPage = (id, e) => {
-    console.log(currentPage);
     e.preventDefault();
     if (id === "up") {
       handlePagination(currentPage + 1, e);
       setCurrentPage(currentPage + 1);
-      console.log("adadasd");
     } else {
       setCurrentPage(currentPage + 1);
       handlePagination(currentPage - 1, e);

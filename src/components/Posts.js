@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { CompaniesContext } from "../contexts/CompaniesContext";
 
 const Wrapper = styled.ul`
   display: flex;
@@ -29,6 +30,7 @@ const ListItem = styled.li`
       word-break: keep-all;
       p {
         font-size: 12px;
+        pointer-events: none;
       }
     }
 
@@ -41,6 +43,7 @@ const ListItem = styled.li`
 `;
 const Posts = (props) => {
   const { posts } = props;
+  const { sortMergedData } = useContext(CompaniesContext);
 
   const listOfCompanies = posts.map((company) => (
     <ListItem key={company.id}>
@@ -60,35 +63,48 @@ const Posts = (props) => {
         <p>{company.average}</p>
       </div>
       <div className="stats">
-        <p>
-          {company.lastMonth
-            .map((item) => item.value)
-            .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-            .toFixed(2)}
-        </p>
+        <p>{company.lastMonth}</p>
       </div>
     </ListItem>
   ));
 
+  const handleClick = (e) => {
+    e.target.classList.toggle("ASC");
+
+    if (e.target.classList.contains("ASC")) {
+      sortMergedData(`${e.target.id}_ASC`);
+    } else {
+      sortMergedData(`${e.target.id}_DESC`);
+    }
+  };
+
   return (
     <Wrapper>
       <ListItem className="headers">
-        <div className="id header">
+        <div className="id header" id="ID" onClick={(e) => handleClick(e)}>
           <p>ID</p>
         </div>
-        <div className="name header">
+        <div className="name header" id="NAME" onClick={(e) => handleClick(e)}>
           <p>Name</p>
         </div>
-        <div className="city header">
+        <div className="city header" id="CITY" onClick={(e) => handleClick(e)}>
           <p>City</p>
         </div>
-        <div className="total header">
+        <div
+          className="total header"
+          id="TOTAL"
+          onClick={(e) => handleClick(e)}
+        >
           <p>Total Income</p>
         </div>
-        <div className="average header">
+        <div
+          className="average header"
+          id="AVERAGE"
+          onClick={(e) => handleClick(e)}
+        >
           <p>Average Income</p>
         </div>
-        <div className="last header">
+        <div className="last header" id="LAST" onClick={(e) => handleClick(e)}>
           <p>Last Month Income</p>
         </div>
       </ListItem>

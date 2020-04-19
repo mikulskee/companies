@@ -3,11 +3,10 @@ import React, { createContext, useState, useEffect } from "react";
 export const CompaniesContext = createContext();
 
 const CompaniesContextProvider = (props) => {
-  const [companies, setCompanies] = useState([]);
-  const [stats, setStats] = useState([]);
+  const [companiesRawData, setCompaniesRawData] = useState([]);
+  const [incomesRawData, setIncomesRawData] = useState([]);
   const [incomes, setIncomes] = useState([]);
-  const [fullData, setFullData] = useState([]);
-
+  const [mergedData, setMergedData] = useState([]);
   const URL = "https://recruitment.hal.skygate.io/companies";
   const statsURL = "https://recruitment.hal.skygate.io/incomes/";
 
@@ -31,16 +30,21 @@ const CompaniesContextProvider = (props) => {
   };
 
   useEffect(() => {
+    // multiple fetch for incomes data
+    // get and set raw company data
+    // get and set raw incomes data
+
     getCompanies().then((data) => {
-      setCompanies(data);
+      setCompaniesRawData(data);
       const table = data.map((data) => getStats(data));
-      Promise.all(table).then((files) => setStats(files));
+      Promise.all(table).then((files) => setIncomesRawData(files));
     });
   }, []);
 
   useEffect(() => {
-    if (stats.length) {
-      const table = stats
+    // improve/make more readable array of incomes
+    if (incomesRawData.length) {
+      const table = incomesRawData
         .map((item) => ({
           id: item.id,
           totalIncome: item.incomes
@@ -68,37 +72,107 @@ const CompaniesContextProvider = (props) => {
         .map((item) => {
           let shift = "";
           shift = item.lastMonth[0].date;
-
           const table = item.lastMonth.filter((item) => {
             return item.date === shift;
           });
-
-          return { ...item, lastMonth: table };
+          return {
+            ...item,
+            lastMonth: table
+              .map((item) => item.value)
+              .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+              .toFixed(2),
+          };
         });
 
       setIncomes(table);
     }
-  }, [stats]);
+  }, [incomesRawData]);
 
   useEffect(() => {
+    // merge two arrays of data (company and icomes)
     if (incomes.length > 0) {
-      const dataTable = () => {
-        let hash = new Map();
-        companies.concat(incomes).forEach((obj) => {
-          hash.set(obj.id, Object.assign(hash.get(obj.id) || {}, obj));
-        });
-        const table = Array.from(hash.values());
+      let hash = new Map();
+      companiesRawData.concat(incomes).forEach((obj) => {
+        hash.set(obj.id, Object.assign(hash.get(obj.id) || {}, obj));
+      });
+      const table = Array.from(hash.values());
 
-        setFullData(table);
-      };
-      dataTable();
+      setMergedData(table);
     }
-  }, [incomes, companies]);
+  }, [incomes, companiesRawData]);
+
+  const sortMergedData = (sortBy) => {
+    const newTable = [...mergedData];
+
+    switch (sortBy) {
+      case "ID_ASC":
+        newTable.sort((a, b) => a.id - b.id);
+        setMergedData(newTable);
+        break;
+      case "ID_DESC":
+        newTable.sort((a, b) => b.id - a.id);
+        setMergedData(newTable);
+        break;
+      case "NAME_ASC":
+        newTable.sort((a, b) => a.name.localeCompare(b.name));
+        setMergedData(newTable);
+        break;
+      case "NAME_DESC":
+        newTable.sort((a, b) => b.name.localeCompare(a.name));
+        setMergedData(newTable);
+        break;
+      case "CITY_ASC":
+        newTable.sort((a, b) => a.city.localeCompare(b.city));
+        setMergedData(newTable);
+        break;
+      case "CITY_DESC":
+        newTable.sort((a, b) => b.city.localeCompare(a.city));
+        setMergedData(newTable);
+        break;
+
+      case "TOTAL_ASC":
+        newTable.sort(
+          (a, b) => parseFloat(a.totalIncome) - parseFloat(b.totalIncome)
+        );
+        setMergedData(newTable);
+        break;
+      case "TOTAL_DESC":
+        newTable.sort(
+          (a, b) => parseFloat(b.totalIncome) - parseFloat(a.totalIncome)
+        );
+        setMergedData(newTable);
+        break;
+
+      case "AVERAGE_ASC":
+        newTable.sort((a, b) => parseFloat(a.average) - parseFloat(b.average));
+        setMergedData(newTable);
+        break;
+      case "AVERAGE_DESC":
+        newTable.sort((a, b) => parseFloat(b.average) - parseFloat(a.average));
+        setMergedData(newTable);
+        break;
+      case "LAST_ASC":
+        newTable.sort(
+          (a, b) => parseFloat(a.lastMonth) - parseFloat(b.lastMonth)
+        );
+        setMergedData(newTable);
+        break;
+      case "LAST_DESC":
+        newTable.sort(
+          (a, b) => parseFloat(b.lastMonth) - parseFloat(a.lastMonth)
+        );
+        setMergedData(newTable);
+        break;
+      default:
+        return;
+    }
+  };
 
   return (
     <CompaniesContext.Provider
       value={{
-        fullData,
+        mergedData,
+        sortMergedData,
       }}
     >
       {props.children}
