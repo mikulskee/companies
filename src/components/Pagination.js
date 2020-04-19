@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.nav`
@@ -6,6 +6,25 @@ const Wrapper = styled.nav`
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    li {
+      margin: 0px 2px;
+      button {
+        background-color: #aaa;
+        color: white;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+        border-left: 2px solid black;
+        border-right: 1px solid black;
+        padding: 5px 10px;
+        &.active {
+          background-color: #000;
+          color: white;
+        }
+      }
+    }
   }
 `;
 
@@ -14,9 +33,10 @@ const Pagination = ({
   totalPosts,
   paginate,
   currentPage,
+  setCurrentPage,
 }) => {
   const [currentSite, setCurrentSite] = useState(0);
-  const [buttonsPerPage] = useState(10);
+  const [buttonsPerPage] = useState(3);
   const indexOfLastButton = currentSite + buttonsPerPage;
   const indexOfFirstButton = indexOfLastButton - buttonsPerPage;
 
@@ -31,7 +51,9 @@ const Pagination = ({
     indexOfLastButton
   );
 
-  const handlePagination = (number) => {
+  const handlePagination = (number, e) => {
+    console.log(number);
+    e.preventDefault();
     if (number === 1) {
       paginate(number);
       setCurrentSite(number - 1);
@@ -44,30 +66,73 @@ const Pagination = ({
     }
   };
 
+  const switchPage = (id, e) => {
+    console.log(currentPage);
+    e.preventDefault();
+    if (id === "up") {
+      handlePagination(currentPage + 1, e);
+      setCurrentPage(currentPage + 1);
+      console.log("adadasd");
+    } else {
+      setCurrentPage(currentPage + 1);
+      handlePagination(currentPage - 1, e);
+    }
+  };
+
+  useEffect(() => {
+    if (pageNumbers.length) {
+      const buttons = document.querySelectorAll(".pagination-button");
+      buttons.forEach((item, i) => {
+        item.classList.remove("active");
+        if (currentPage === parseInt(item.innerHTML)) {
+          item.classList.add("active");
+        }
+      });
+    }
+  }, [currentPage, pageNumbers]);
+
   return (
     <Wrapper>
-      <ul>
-        {currentPage > 2 ? (
-          <li>
-            <button onClick={() => handlePagination(1)}>{1}</button> ...
-          </li>
-        ) : null}
+      {pageNumbers.length ? (
+        <ul>
+          {currentPage > 1 ? (
+            <li>
+              <button onClick={(e) => switchPage("down", e)}>{"<"}</button>
+            </li>
+          ) : null}
+          {currentPage > 2 ? (
+            <li>
+              <button onClick={(e) => handlePagination(1, e)}>{1}</button> ...{" "}
+            </li>
+          ) : null}
 
-        {currentButtonList.map((number) => (
-          <li key={number}>
-            <button onClick={() => handlePagination(number)}>{number}</button>
-          </li>
-        ))}
+          {currentButtonList.map((number) => (
+            <li key={number}>
+              <button
+                className="pagination-button"
+                onClick={(e) => handlePagination(number, e)}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
 
-        {currentPage !== pageNumbers.length ? (
-          <li>
-            ...{" "}
-            <button onClick={() => handlePagination(pageNumbers.length)}>
-              {pageNumbers.length}
-            </button>
-          </li>
-        ) : null}
-      </ul>
+          {currentPage <= pageNumbers.length - (buttonsPerPage - 1) ? (
+            <li>
+              {" "}
+              ...{" "}
+              <button onClick={(e) => handlePagination(pageNumbers.length, e)}>
+                {pageNumbers.length}
+              </button>
+            </li>
+          ) : null}
+          {currentPage !== pageNumbers.length ? (
+            <li>
+              <button onClick={(e) => switchPage("up", e)}>{">"}</button>
+            </li>
+          ) : null}
+        </ul>
+      ) : null}
     </Wrapper>
   );
 };

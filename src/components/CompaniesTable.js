@@ -35,6 +35,7 @@ const CompaniesTable = () => {
         totalPosts={fullData.length}
         paginate={paginate}
         currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </>
   );
