@@ -2,15 +2,35 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { CompaniesContext } from "../contexts/CompaniesContext";
 
-const Wrapper = styled.ul`
+const Wrapper = styled.div`
+  width: 100%;
+  overflow: auto;
+  padding: 10px 0;
+`;
+
+const List = styled.ul`
   display: flex;
   flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  min-width: 360px;
 `;
 
 const ListItem = styled.li`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  background-color: #fff;
+  border-top: 1px solid #666;
+
+  &:nth-last-child(1) {
+    border-bottom: 1px solid #666;
+  }
+
+  &:nth-child(odd) {
+    background-color: #f3f3f3;
+  }
 
   div:nth-child(1) {
     width: 13%;
@@ -24,7 +44,11 @@ const ListItem = styled.li`
     padding: 10px 5px;
     text-align: center;
     word-break: break-word;
-    border: 1px solid black;
+    border-left: 1px solid #666;
+    &:nth-last-child(1) {
+      border-right: 1px solid #666;
+    }
+
     &.header {
       font-weight: bold;
       word-break: keep-all;
@@ -84,35 +108,49 @@ const Posts = (props) => {
 
   return (
     <Wrapper>
-      <ListItem className="headers">
-        <div className="id header" id="ID" onClick={(e) => handleClick(e)}>
-          <p>ID</p>
-        </div>
-        <div className="name header" id="NAME" onClick={(e) => handleClick(e)}>
-          <p>Name</p>
-        </div>
-        <div className="city header" id="CITY" onClick={(e) => handleClick(e)}>
-          <p>City</p>
-        </div>
-        <div
-          className="total header"
-          id="TOTAL"
-          onClick={(e) => handleClick(e)}
-        >
-          <p>Total Income</p>
-        </div>
-        <div
-          className="average header"
-          id="AVERAGE"
-          onClick={(e) => handleClick(e)}
-        >
-          <p>Average Income</p>
-        </div>
-        <div className="last header" id="LAST" onClick={(e) => handleClick(e)}>
-          <p>Last Month Income</p>
-        </div>
-      </ListItem>
-      {listOfCompanies}
+      <List>
+        <ListItem className="headers">
+          <div className="id header" id="ID" onClick={(e) => handleClick(e)}>
+            <p>ID</p>
+          </div>
+          <div
+            className="name header"
+            id="NAME"
+            onClick={(e) => handleClick(e)}
+          >
+            <p>Name</p>
+          </div>
+          <div
+            className="city header"
+            id="CITY"
+            onClick={(e) => handleClick(e)}
+          >
+            <p>City</p>
+          </div>
+          <div
+            className="total header"
+            id="TOTAL"
+            onClick={(e) => handleClick(e)}
+          >
+            <p>Total Income</p>
+          </div>
+          <div
+            className="average header"
+            id="AVERAGE"
+            onClick={(e) => handleClick(e)}
+          >
+            <p>Average Income</p>
+          </div>
+          <div
+            className="last header"
+            id="LAST"
+            onClick={(e) => handleClick(e)}
+          >
+            <p>Last Month Income</p>
+          </div>
+        </ListItem>
+        {listOfCompanies}
+      </List>
     </Wrapper>
   );
 };

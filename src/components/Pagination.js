@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.nav`
+  margin: 20px 0;
   ul {
     list-style: none;
     display: flex;
@@ -12,16 +13,19 @@ const Wrapper = styled.nav`
     li {
       margin: 0px 2px;
       button {
-        background-color: #aaa;
-        color: white;
-        border-top: 2px solid black;
-        border-bottom: 2px solid black;
-        border-left: 2px solid black;
-        border-right: 1px solid black;
-        padding: 5px 10px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        color: black;
+        border: none;
+        background: none;
         &.active {
-          background-color: #000;
+          background-color: #d2d2d2;
           color: white;
+        }
+
+        &.switch {
+          font-weight: bold;
         }
       }
     }
@@ -94,7 +98,9 @@ const Pagination = ({
         <ul>
           {currentPage > 1 ? (
             <li>
-              <button onClick={(e) => switchPage("down", e)}>{"<"}</button>
+              <button className="switch" onClick={(e) => switchPage("down", e)}>
+                {"<"}
+              </button>
             </li>
           ) : null}
           {currentPage > 2 ? (
@@ -125,7 +131,9 @@ const Pagination = ({
           ) : null}
           {currentPage !== pageNumbers.length ? (
             <li>
-              <button onClick={(e) => switchPage("up", e)}>{">"}</button>
+              <button className="switch" onClick={(e) => switchPage("up", e)}>
+                {">"}
+              </button>
             </li>
           ) : null}
         </ul>
