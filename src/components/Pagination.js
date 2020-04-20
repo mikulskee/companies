@@ -26,6 +26,12 @@ const Wrapper = styled.nav`
         border: none;
         background: none;
         transition: all 0.15s linear;
+
+        @media only screen and (min-width: 1024px) {
+          width: 45px;
+          height: 45px;
+          font-size: 18px;
+        }
         &:hover {
           background-color: #a2a2a2;
         }

@@ -104,32 +104,48 @@ const CompaniesContextProvider = (props) => {
   }, [incomes, companiesRawData]);
 
   const sortMergedData = (sortBy) => {
-    const newTable = [...mergedData];
+    let newTable = [];
+    if (searchedData.length) {
+      newTable = [...searchedData];
+    } else {
+      newTable = [...mergedData];
+    }
 
     switch (sortBy) {
       case "ID_ASC":
         newTable.sort((a, b) => a.id - b.id);
         setMergedData(newTable);
+        setSearchedData(newTable);
         break;
       case "ID_DESC":
         newTable.sort((a, b) => b.id - a.id);
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "NAME_ASC":
         newTable.sort((a, b) => a.name.localeCompare(b.name));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "NAME_DESC":
         newTable.sort((a, b) => b.name.localeCompare(a.name));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "CITY_ASC":
         newTable.sort((a, b) => a.city.localeCompare(b.city));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "CITY_DESC":
         newTable.sort((a, b) => b.city.localeCompare(a.city));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
 
       case "TOTAL_ASC":
@@ -137,33 +153,45 @@ const CompaniesContextProvider = (props) => {
           (a, b) => parseFloat(a.totalIncome) - parseFloat(b.totalIncome)
         );
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "TOTAL_DESC":
         newTable.sort(
           (a, b) => parseFloat(b.totalIncome) - parseFloat(a.totalIncome)
         );
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
 
       case "AVERAGE_ASC":
         newTable.sort((a, b) => parseFloat(a.average) - parseFloat(b.average));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "AVERAGE_DESC":
         newTable.sort((a, b) => parseFloat(b.average) - parseFloat(a.average));
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "LAST_ASC":
         newTable.sort(
           (a, b) => parseFloat(a.lastMonth) - parseFloat(b.lastMonth)
         );
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       case "LAST_DESC":
         newTable.sort(
           (a, b) => parseFloat(b.lastMonth) - parseFloat(a.lastMonth)
         );
         setMergedData(newTable);
+        setSearchedData(newTable);
+
         break;
       default:
         return;
