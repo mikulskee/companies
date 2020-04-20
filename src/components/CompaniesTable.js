@@ -3,6 +3,7 @@ import { CompaniesContext } from "../contexts/CompaniesContext";
 import Pagination from "./Pagination";
 import Posts from "./Posts";
 import SearchInput from "./SearchInput";
+import Loader from "./Loader";
 
 const CompaniesTable = () => {
   const { mergedData, searchedData, inputValue } = useContext(CompaniesContext);
@@ -36,7 +37,7 @@ const CompaniesTable = () => {
           )}
         </>
       ) : (
-        <h1>Ładowanie...</h1>
+        <Loader />
       )}
       {searchedData.length === 0 && inputValue.length !== 0 ? null : (
         <Pagination
