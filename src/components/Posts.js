@@ -37,6 +37,9 @@ const ListItem = styled.li`
     &.stats {
       p {
         font-size: 10px;
+        span {
+          background-color: green;
+        }
       }
     }
   }
@@ -48,22 +51,22 @@ const Posts = (props) => {
   const listOfCompanies = posts.map((company) => (
     <ListItem key={company.id}>
       <div className="stats">
-        <p>{company.id}</p>
+        <p className="id data-text">{company.id}</p>
       </div>
       <div className="stats">
-        <p className="name">{company.name}</p>
+        <p className="name data-text">{company.name}</p>
+      </div>
+      <div className="stats ">
+        <p className="company data-text">{company.city}</p>
       </div>
       <div className="stats">
-        <p>{company.city}</p>
+        <p className="total data-text">{company.totalIncome}</p>
       </div>
       <div className="stats">
-        <p>{company.totalIncome}</p>
+        <p className="average data-text">{company.average}</p>
       </div>
       <div className="stats">
-        <p>{company.average}</p>
-      </div>
-      <div className="stats">
-        <p>{company.lastMonth}</p>
+        <p className="company data-text">{company.lastMonth}</p>
       </div>
     </ListItem>
   ));
