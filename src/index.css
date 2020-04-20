@@ -12,3 +12,7 @@
 body {
   background-color: #f5f5f5;
 }
+
+.App {
+  width: 100vw;
+}
