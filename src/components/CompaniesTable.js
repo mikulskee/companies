@@ -5,7 +5,7 @@ import Posts from "./Posts";
 import SearchInput from "./SearchInput";
 
 const CompaniesTable = () => {
-  const { mergedData, searchedData } = useContext(CompaniesContext);
+  const { mergedData, searchedData, inputValue } = useContext(CompaniesContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [companiesPerPage] = useState(10);
   const [currentList, setCurrentList] = useState([]);
@@ -29,7 +29,11 @@ const CompaniesTable = () => {
       {mergedData ? <SearchInput /> : null}
       {mergedData.length > 0 ? (
         <>
-          <Posts posts={currentList} />
+          {searchedData.length === 0 && inputValue.length !== 0 ? (
+            <h1>Brak wyników dla frazy "{inputValue}" </h1>
+          ) : (
+            <Posts posts={currentList} />
+          )}
         </>
       ) : (
         <h1>Ładowanie...</h1>

@@ -90,7 +90,7 @@ const Pagination = ({
 
   return (
     <Wrapper>
-      {pageNumbers.length ? (
+      {pageNumbers.length > 1 ? (
         <ul>
           {currentPage > 1 ? (
             <li>

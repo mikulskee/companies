@@ -8,6 +8,7 @@ const CompaniesContextProvider = (props) => {
   const [incomes, setIncomes] = useState([]);
   const [mergedData, setMergedData] = useState([]);
   const [searchedData, setSearchedData] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const URL = "https://recruitment.hal.skygate.io/companies";
   const statsURL = "https://recruitment.hal.skygate.io/incomes/";
 
@@ -169,16 +170,23 @@ const CompaniesContextProvider = (props) => {
     }
   };
 
-  const displayDataViaSerchedPhrase = (phrase) => {
-    const newTable = mergedData.filter((item) => {
-      return Object.keys(item).some((i) => {
-        return (
-          item[i].toString().toLowerCase().indexOf(phrase.toLowerCase()) !== -1
-        );
-      });
-    });
+  const displayDataViaSerchedPhrase = (inputValue) => {
+    setInputValue(inputValue);
 
-    setSearchedData(newTable);
+    if (inputValue.length) {
+      const newTable = mergedData.filter((item) => {
+        return Object.keys(item).some((i) => {
+          return (
+            item[i]
+              .toString()
+              .toLowerCase()
+              .indexOf(inputValue.toLowerCase()) !== -1
+          );
+        });
+      });
+
+      setSearchedData(newTable);
+    }
   };
   return (
     <CompaniesContext.Provider
@@ -187,6 +195,7 @@ const CompaniesContextProvider = (props) => {
         sortMergedData,
         displayDataViaSerchedPhrase,
         searchedData,
+        inputValue,
       }}
     >
       {props.children}

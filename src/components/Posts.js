@@ -37,8 +37,9 @@ const ListItem = styled.li`
     &.stats {
       p {
         font-size: 10px;
-        span {
-          background-color: green;
+        &.active {
+          color: white;
+          background: green;
         }
       }
     }
