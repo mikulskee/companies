@@ -186,6 +186,8 @@ const CompaniesContextProvider = (props) => {
       });
 
       setSearchedData(newTable);
+    } else {
+      setSearchedData([]);
     }
   };
   return (

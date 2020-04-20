@@ -38,15 +38,17 @@ const CompaniesTable = () => {
       ) : (
         <h1>Ładowanie...</h1>
       )}
-      <Pagination
-        companiesPerPage={companiesPerPage}
-        totalPosts={
-          searchedData.length ? searchedData.length : mergedData.length
-        }
-        paginate={paginate}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {searchedData.length === 0 && inputValue.length !== 0 ? null : (
+        <Pagination
+          companiesPerPage={companiesPerPage}
+          totalPosts={
+            searchedData.length ? searchedData.length : mergedData.length
+          }
+          paginate={paginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </>
   );
 };
