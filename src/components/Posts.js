@@ -3,18 +3,24 @@ import styled from "styled-components";
 import { CompaniesContext } from "../contexts/CompaniesContext";
 
 const Wrapper = styled.div`
-  width: 100%;
   overflow: auto;
   padding: 10px 0;
 `;
 
 const List = styled.ul`
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
-  border-radius: 30px;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   min-width: 360px;
+  max-width: 1240px;
+  @media only screen and (min-width: 1024px) {
+    width: 98%;
+  }
+  @media only screen and (min-width: 1366px) {
+    width: 80%;
+  }
 `;
 
 const ListItem = styled.li`
@@ -32,11 +38,17 @@ const ListItem = styled.li`
     background-color: #f3f3f3;
   }
 
-  div:nth-child(1) {
+  div.id {
     width: 13%;
+    @media only screen and (min-width: 1024px) {
+      width: 6%;
+    }
   }
-  div:nth-child(2) {
+  div.name {
     width: 15%;
+    @media only screen and (min-width: 1024px) {
+      width: 22%;
+    }
   }
 
   div {
@@ -55,15 +67,27 @@ const ListItem = styled.li`
       p {
         font-size: 12px;
         pointer-events: none;
+        @media only screen and (min-width: 1024px) {
+          font-size: 16px;
+        }
+        @media only screen and (min-width: 1366px) {
+          font-size: 20px;
+        }
       }
     }
 
     &.stats {
       p {
         font-size: 10px;
-        &.active {
-          color: white;
-          background: green;
+        @media only screen and (min-width: 1024px) {
+          font-size: 12px;
+        }
+        @media only screen and (min-width: 1366px) {
+          font-size: 14px;
+        }
+
+        &.name {
+          font-weight: bold;
         }
       }
     }
@@ -75,23 +99,23 @@ const Posts = (props) => {
 
   const listOfCompanies = posts.map((company) => (
     <ListItem key={company.id}>
-      <div className="stats">
+      <div className="stats id">
         <p className="id data-text">{company.id}</p>
       </div>
-      <div className="stats">
+      <div className="stats name">
         <p className="name data-text">{company.name}</p>
       </div>
-      <div className="stats ">
+      <div className="stats company">
         <p className="company data-text">{company.city}</p>
       </div>
-      <div className="stats">
+      <div className="stats total">
         <p className="total data-text">{company.totalIncome}</p>
       </div>
-      <div className="stats">
+      <div className="stats average">
         <p className="average data-text">{company.average}</p>
       </div>
-      <div className="stats">
-        <p className="company data-text">{company.lastMonth}</p>
+      <div className="stats lastmonth">
+        <p className="lastmonth data-text">{company.lastMonth}</p>
       </div>
     </ListItem>
   ));

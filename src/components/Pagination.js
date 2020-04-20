@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.nav`
   margin: 20px 0;
@@ -12,20 +14,32 @@ const Wrapper = styled.nav`
     margin: 0 auto;
     li {
       margin: 0px 2px;
+      @media only screen and (min-width: 1024px) {
+        margin: 0 5px;
+      }
       button {
+        cursor: pointer;
         width: 35px;
         height: 35px;
         border-radius: 50%;
         color: black;
         border: none;
         background: none;
+        transition: all 0.15s linear;
+        &:hover {
+          background-color: #a2a2a2;
+        }
         &.active {
           background-color: #d2d2d2;
           color: white;
+          &:hover {
+            background-color: #929292;
+          }
         }
 
         &.switch {
           font-weight: bold;
+          background-color: #a2a2a2;
         }
       }
     }
@@ -99,7 +113,7 @@ const Pagination = ({
           {currentPage > 1 ? (
             <li>
               <button className="switch" onClick={(e) => switchPage("down", e)}>
-                {"<"}
+                <FontAwesomeIcon icon={faCaretLeft} />
               </button>
             </li>
           ) : null}
@@ -132,7 +146,7 @@ const Pagination = ({
           {currentPage !== pageNumbers.length ? (
             <li>
               <button className="switch" onClick={(e) => switchPage("up", e)}>
-                {">"}
+                <FontAwesomeIcon icon={faCaretRight} />
               </button>
             </li>
           ) : null}
