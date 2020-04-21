@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { CompaniesContext } from "../contexts/CompaniesContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   overflow: auto;
@@ -62,8 +64,12 @@ const ListItem = styled.li`
     }
 
     &.header {
+      display: flex;
       font-weight: bold;
       word-break: keep-all;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
       p {
         font-size: 12px;
         pointer-events: none;
@@ -72,6 +78,37 @@ const ListItem = styled.li`
         }
         @media only screen and (min-width: 1366px) {
           font-size: 20px;
+        }
+      }
+
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        pointer-events: none;
+        opacity: 0;
+        &.active-up {
+          opacity: 1;
+          svg:nth-child(1) {
+            color: #000;
+          }
+          svg:nth-child(2) {
+            color: #bbb;
+          }
+        }
+        &.active-down {
+          opacity: 1;
+          svg:nth-child(2) {
+            color: #000;
+          }
+          svg:nth-child(1) {
+            color: #bbb;
+          }
+        }
+        svg {
+          margin: -6px 4px;
+          color: #bbb;
         }
       }
     }
@@ -121,6 +158,18 @@ const Posts = (props) => {
   ));
 
   const handleClick = (e) => {
+    if (e.target.querySelector("span").classList.contains("active-down")) {
+      document
+        .querySelectorAll("div.header span")
+        .forEach((item) => item.classList.remove("active-down"));
+      e.target.querySelector("span").classList.add("active-up");
+    } else {
+      document
+        .querySelectorAll("div.header span")
+        .forEach((item) => item.classList.remove("active-up", "active-down"));
+      e.target.querySelector("span").classList.add("active-down");
+    }
+
     e.target.classList.toggle("ASC");
 
     if (e.target.classList.contains("ASC")) {
@@ -136,41 +185,70 @@ const Posts = (props) => {
         <ListItem className="headers">
           <div className="id header" id="ID" onClick={(e) => handleClick(e)}>
             <p>ID</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
+
           <div
             className="name header"
             id="NAME"
             onClick={(e) => handleClick(e)}
           >
             <p>Name</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
+
           <div
             className="city header"
             id="CITY"
             onClick={(e) => handleClick(e)}
           >
             <p>City</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
+
           <div
             className="total header"
             id="TOTAL"
             onClick={(e) => handleClick(e)}
           >
             <p>Total Income</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
+
           <div
             className="average header"
             id="AVERAGE"
             onClick={(e) => handleClick(e)}
           >
             <p>Average Income</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
+
           <div
             className="last header"
             id="LAST"
             onClick={(e) => handleClick(e)}
           >
             <p>Last Month Income</p>
+            <span className="sorting-icons">
+              <FontAwesomeIcon icon={faSortUp} />
+              <FontAwesomeIcon icon={faSortDown} />
+            </span>
           </div>
         </ListItem>
         {listOfCompanies}
