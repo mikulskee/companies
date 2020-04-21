@@ -49,6 +49,7 @@ const CompaniesTable = () => {
           paginate={paginate}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          inputValue={inputValue}
         />
       )}
     </>

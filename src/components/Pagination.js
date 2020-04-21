@@ -58,6 +58,7 @@ const Pagination = ({
   paginate,
   currentPage,
   setCurrentPage,
+  inputValue,
 }) => {
   const [currentSite, setCurrentSite] = useState(0);
   const [buttonsPerPage] = useState(3);
@@ -111,6 +112,11 @@ const Pagination = ({
       });
     }
   }, [currentPage, pageNumbers]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setCurrentSite(0);
+  }, [inputValue, setCurrentPage]);
 
   return (
     <Wrapper>
