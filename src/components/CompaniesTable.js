@@ -4,6 +4,7 @@ import Pagination from "./Pagination";
 import Posts from "./Posts";
 import SearchInput from "./SearchInput";
 import Loader from "./Loader";
+import { Warning } from "./Warning";
 
 const CompaniesTable = () => {
   const { mergedData, searchedData, inputValue } = useContext(CompaniesContext);
@@ -31,7 +32,7 @@ const CompaniesTable = () => {
       {mergedData.length > 0 ? (
         <>
           {searchedData.length === 0 && inputValue.length !== 0 ? (
-            <h1>Brak wyników dla frazy "{inputValue}" </h1>
+            <Warning>Brak wyników dla frazy "{inputValue}" </Warning>
           ) : (
             <Posts posts={currentList} />
           )}
